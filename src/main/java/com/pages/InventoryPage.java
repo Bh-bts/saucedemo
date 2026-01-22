@@ -52,12 +52,13 @@ public class InventoryPage {
         driver.findElement(By.className("shopping_cart_link")).click();
     }
 
-    public int getCartItemCount() {
+    public int getCartItemCount() throws InterruptedException {
+        Thread.sleep(2000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
         try {
             WebElement badge = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.className("shopping_cart_badge"))
+                    ExpectedConditions.presenceOfElementLocated(By.className("shopping_cart_badge"))
             );
             return Integer.parseInt(badge.getText());
 

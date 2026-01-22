@@ -3,7 +3,10 @@ package com.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class InventoryPage {
@@ -49,9 +52,17 @@ public class InventoryPage {
         driver.findElement(By.className("shopping_cart_link")).click();
     }
 
-    public int getCartItemCount() throws InterruptedException {
-        Thread.sleep(2000);
-        List<WebElement> badge = driver.findElements(By.className("shopping_cart_badge"));
-        return Integer.parseInt(badge.get(0).getText());
+    public int getCartItemCount() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        try {
+            WebElement badge = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.className("shopping_cart_badge"))
+            );
+            return Integer.parseInt(badge.getText());
+
+        } catch (Exception e) {
+            return 0; // Badge not visible means cart is empty
+        }
     }
 }

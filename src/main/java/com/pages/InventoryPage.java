@@ -49,7 +49,8 @@ public class InventoryPage {
         driver.findElement(By.className("shopping_cart_link")).click();
     }
 
-    public int getCartItemCount() {
+    public int getCartItemCount() throws InterruptedException {
+        Thread.sleep(2000);
         List<WebElement> badge = driver.findElements(By.className("shopping_cart_badge"));
         return badge.isEmpty() ? 0 : Integer.parseInt(badge.get(0).getText());
     }
